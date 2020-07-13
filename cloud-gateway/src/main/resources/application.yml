@@ -1,0 +1,30 @@
+eureka:
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8880/eureka/
+server:
+  port: 10001
+spring:
+  application:
+    name: cloud-gateway
+  # 路由：配置网关项目代理其他的微服务进行路由
+  cloud:
+    gateway:
+      routes:   # routes对应多个路由规则  每一个规则都是RouteDefinition类的一个实例
+        # movie服务的路由规则
+        - id: CLOUD-EUREKA-MOVIE-FEIGN  # 要路由服务的id，建议和服务名一样
+          uri: lb://CLOUD-EUREKA-MOVIE-FEIGN     # 当网关项目接受到匹配的请求时如何交给当前路由的服务处理
+          predicates:
+            - Path=/movie/**       # 路由的路径，访问网关项目的路径如果匹配当前路径就会交给movie服务处理
+        # 过滤： 权限等检查、日志输出..、报文处理
+        - id: CLOUD-EUREKA-USER-FEIGN
+          uri: lb://CLOUD-EUREKA-USER-FEIGN
+          predicates:
+            - Path=/user/**
+#          fiters:
+#            - AddRequestParameter=token,yy-youke
+#            - AddResponseHeader=server-origin,yy

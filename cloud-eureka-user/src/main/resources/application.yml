@@ -1,0 +1,14 @@
+server:
+  port: 8890
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8880/eureka/
+  instance:
+    ip-address: 192.168.116.128
+    prefer-ip-address: true
+spring:
+  application:
+    name: cloud-eureka-user

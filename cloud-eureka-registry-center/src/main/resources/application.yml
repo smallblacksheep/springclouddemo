@@ -1,0 +1,16 @@
+# 注册中心端口号
+server:
+  port: 8880
+#当前服务名称
+spring:
+  application:
+    name: cloud-eureka-registry-center
+
+eureka:
+  instance:
+    ip-address: localhost
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${eureka.instance.ip-address}:${server.port}/eureka/
